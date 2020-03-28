@@ -1,3 +1,59 @@
+<?php
+
+/*
+$str_mm = '
+<option>1</option>
+<option>2</option>
+<option>3</option>
+<option>4</option>
+<option>5</option>
+<option>6</option>
+<option>7</option>
+<option>8</option>
+<option>9</option>
+<option>10</option>
+<option>11</option>
+<option>12</option>
+';
+*/
+
+// 處理月
+$str_mm = '';
+for($i=1; $i<=12; $i++)
+{
+	$str_mm .= '<option>' . $i . '</option>';
+}
+
+
+// 處理日
+$str_dd = '';
+for($i=1; $i<=31; $i++)
+{
+	$str_dd .= '<option>' . $i . '</option>';
+}
+
+
+// 處理年
+/*
+$str_yy = '';
+$year_begin = 1900;
+$year_end = date('Y', time());
+for($i=$year_begin; $i<=$year_end; $i++)
+{
+	$str_yy .= '<option>' . $i . '</option>';
+}
+*/
+
+$str_yy = '';
+$year_begin = date('Y', time());
+$year_end = 1900;
+for($i=$year_begin; $i>=$year_end; $i--)
+{
+	$str_yy .= '<option>' . $i . '</option>';
+}
+
+
+$html = <<<HEREDOC
 <!DOCTYPE html>
 <html>
 <head>
@@ -30,68 +86,19 @@
 
   <p>生日：
   	<select name="birth_yy">
-      <option>2010</option>
-      <option>2011</option>
-      <option>2012</option>
-      <option>2013</option>
-      <option>2014</option>
-      <option>2015</option>
-      <option>2016</option>
-      <option>2017</option>
-      <option>2018</option>
+{$str_yy}
   	</select>
   	年 
   	<select name="birth_mm">
-  		<option value="1">一</option>
-  		<option value="2">二</option>
-  		<option value="3">三</option>
-  		<option>4</option>
-  		<option>5</option>
-  		<option>6</option>
-  		<option>7</option>
-  		<option>8</option>
-  		<option>9</option>
-  		<option>10</option>
-  		<option>11</option>
-  		<option>12</option>
+{$str_mm}
   	</select>
   	月
-  	<select name="birth_dd">
-  		<option>1</option>
-  		<option>2</option>
-  		<option>3</option>
-  		<option>4</option>
-  		<option>5</option>
-  		<option>6</option>
-  		<option>7</option>
-  		<option>8</option>
-  		<option>9</option>
-  		<option>10</option>
-  		<option>11</option>
-  		<option>12</option>
-  		<option>13</option>
-  		<option>14</option>
-  		<option>15</option>
-  		<option>16</option>
-  		<option>17</option>
-  		<option>18</option>
-  		<option>19</option>
-  		<option>20</option>
-  		<option>21</option>
-  		<option>22</option>
-  		<option>23</option>
-  		<option>24</option>
-  		<option>25</option>
-  		<option>26</option>
-  		<option>27</option>
-  		<option>28</option>
-  		<option>29</option>
-  		<option>30</option>
-  		<option>31</option>
+    <select name="birth_dd">
+{$str_dd}
   	</select>
   	日
   </p>
-
+  
   <p>是否已婚：<input type="checkbox" name="marriage" value="Y">(已婚請勾選)</p>
 
   <p>休閒興趣：
@@ -111,3 +118,7 @@
 
 </body>
 </html>
+HEREDOC;
+
+echo $html;
+?>
