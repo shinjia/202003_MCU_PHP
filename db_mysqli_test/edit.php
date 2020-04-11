@@ -3,21 +3,15 @@ include 'config.php';
 
 $uid = isset($_GET['uid']) ? $_GET['uid'] : 0;
 
+
 // 連接資料庫
 $link = db_open();
 
-// 寫出 SQL 語法
 $sqlstr = "SELECT * FROM person WHERE uid=" . $uid;
-
-// 執行 SQL
 $result = mysqli_query($link, $sqlstr);
 
-if($row=mysqli_fetch_array($result, MYSQLI_ASSOC))
+if($row=mysqli_fetch_array($result))
 {
-  echo '<pre>';
-  print_r($row);
-  echo '<pre>';
-
    $uid      = $row['uid'];
    $usercode = $row['usercode'];
    $username = $row['username'];
@@ -28,41 +22,22 @@ if($row=mysqli_fetch_array($result, MYSQLI_ASSOC))
    $remark   = $row['remark'];
 
    $data = <<< HEREDOC
-   <table border="1">
-      <tr>
-        <th>代碼</th>
-        <td>{$usercode}</td>
-      </tr>
-      <tr>
-        <th>姓名</th>
-        <td>{$username}</td>
-      </tr>
-      <tr>
-        <th>地址</th>
-        <td>{$address}</td>
-      </tr>
-      <tr>
-        <th>生日</th>
-        <td>{$birthday}</td>
-      </tr>
-      <tr>
-        <th>身高</th>
-        <td>{$height}</td>
-      </tr>
-      <tr>
-        <th>體重</th>
-        <td>{$weight}</td>
-      </tr>
-      <tr>
-        <th>備註</th>
-        <td>{$remark}</td>
-      </tr>
-    </table>
+   <form action="edit_save.php" method="post">
+      <p>代碼：<input type="text" name="usercode" value="{$usercode}"></p>
+      <p>姓名：<input type="text" name="username" value="{$username}"></p>
+      <p>地址：<input type="text" name="address"  value="{$address}"></p>
+      <p>生日：<input type="text" name="birthday" value="{$birthday}"></p>
+      <p>身高：<input type="text" name="height"   value="{$height}"></p>
+      <p>體重：<input type="text" name="weight"   value="{$weight}"></p>
+      <p>備註：<input type="text" name="remark"   value="{$remark}"></p>
+      <input type="hidden" name="uid" value="{$uid}">
+      <input type="submit" value="送出">
+   </form>
 HEREDOC;
 }
 else
 {
-  $data = '找不到資料！';
+   $data = '找不到資料';
 }
 
 db_close($link);
@@ -79,7 +54,7 @@ $html = <<< HEREDOC
 <body>
 <p><a href="index.php">回首頁</a></p>
 
-<h2>詳細資料</h2>
+<h2 align="center">修改資料</h2>
 
 {$data}
 
